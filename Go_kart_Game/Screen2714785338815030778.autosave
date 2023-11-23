@@ -70,10 +70,6 @@ class gameScreen extends screen{ //game screen
     playerKart = new kart(new PVector(width/2, height/2), new PVector(0, 0)); //init the player "kart" in the centre of the screen
   }
 
-  void update(float delta) {
-    playerKart.update(delta);
-  }
-
   void draw() {
     fill(155);
     playerKart.draw(); //draw the player "kart"
@@ -81,10 +77,10 @@ class gameScreen extends screen{ //game screen
   }
 
    void keyPressed() {
-      playerKart.keyPressed(); //call key pressed on the player "kart"
+      playerKart.keyPressed(); 
   }
 
   void keyReleased() {
-      playerKart.keyReleased(); //call key Released on the player "kart"
+      playerKart.keyReleased();
   }
 }
