@@ -1,20 +1,23 @@
 class kart{
     PVector pos;
-    PVector vel;
+    float vel;
     PVector bbBoxSize;
     PVector controlVector;
     PImage mapImage;
     float traction;
-    float maxSpeed = 50;
+    float maxSpeed = 200;
     float maxRot = 0.1;
-    float accelRate = 1500;
+    float turnSpeed = 100;
+    float turnValue;
+    float accelRate = 700;
+    float breakConstant = 500;
     float rot;
 
     kart(PVector startingPos, PVector bbBoxSize) {
         this.pos = startingPos; // set our pos to our starting pos
         this.bbBoxSize = bbBoxSize; //unused
         controlVector = new PVector(0, 0); //control vector, keyboard/joysticks/controllers/AI can modifiy this to tell the kart to move
-        vel = new PVector(0, 0); //velcoity of our kart
+        vel = 0; //velcoity of our kart
         mapImage = loadImage("/assets/Images/map_arrow.png"); //loads a basic arrow image
         traction = 0; //unused
         rot =  0; // our rotation, in degress
@@ -22,16 +25,36 @@ class kart{
     }
 
     void update(float delta) {
-        println(controlVector);
-        vel.x = (controlVector.x * (accelRate * delta)); //set the mag of velocity to our control vector, times accel rate, times delta 
-        println(vel);
+        //println(controlVector);
+        println("controlVector" + controlVector);
+        vel += (max(0, controlVector.x) * (accelRate * delta)); //set the mag of velocity to our control vector, times accel rate, times delta 
+        
+        if (controlVector.x < 0 && vel > 0) {
+          vel += (controlVector.x * (breakConstant * delta));
+        }
+        
+        traction = map(vel, -maxSpeed, maxSpeed, -maxRot, maxRot/2);
+        println("traction:" + traction);
+        
+        turnValue = map(vel, -turnSpeed, turnSpeed, -maxRot, maxRot);
+        turnValue = min(maxRot, turnValue);
+        
+        println("turnValue:" + turnValue);
+        
+        println("turnTotal:" + (turnValue - traction));
+        
+        println("vel:" + vel);
         println("pos:" + pos);
-        vel.limit(maxSpeed); //limit to the max speed
-        PVector velToAdd = vel.copy(); //create new temp vector
+        
+        
+        
+        
+        vel = min(maxSpeed, vel); //limit to the max speed
+        PVector velToAdd = new PVector(vel, 0); //create new temp vector
         velToAdd.mult(delta); // times by delta
         velToAdd.rotate(rot); // rotate by our current rotation
         pos.add(velToAdd); // add to pos
-        rot += controlVector.y * maxRot; //change rotation according to our controlVector
+        rot += controlVector.y * (turnValue - traction); //change rotation according to our controlVector
     }
 
     void keyPressed() {
@@ -59,6 +82,28 @@ class kart{
     }
 
     void keyReleased() {
+/*
+        if ((keyCode == LEFT)) {
+            controlVector.y += 1; //tell the kart to turn left
+            println(controlVector);
+        }
+        
+        if ((keyCode == RIGHT)) {
+            controlVector.y += -1; //tell the kart to turn right
+            println(controlVector);
+        }
+
+        if ((keyCode == UP)) {
+            controlVector.x += -1; //tell the kart to turn left
+            println(controlVector);
+        }
+        
+        if ((keyCode == DOWN)) {
+            controlVector.x += 1; //tell the kart to turn right
+            println(controlVector);
+        }
+        controlVector.limit(1);
+*/
         if ((keyCode == LEFT || keyCode == RIGHT)) {
             controlVector.y = 0; //reset our control vector if we release keys
             println(controlVector);

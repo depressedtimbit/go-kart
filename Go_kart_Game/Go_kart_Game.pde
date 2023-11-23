@@ -1,8 +1,10 @@
 screen CurrentScreen;
 
-
 float delta;
 long time;
+
+enum WallType { WALL, CHECKPOINT, FINISH }
+
 
 void setup () {
   size(1000, 800); //set our game size
