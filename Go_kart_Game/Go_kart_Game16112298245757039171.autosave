@@ -1,0 +1,44 @@
+import net.java.games.input.*;
+import org.gamecontrolplus.*;
+import org.gamecontrolplus.gui.*;
+
+import g4p_controls.*;
+
+screen CurrentScreen;
+ControlIO control;
+ControlDevice stick;
+
+float delta;
+long time;
+
+void setup () {
+  size(1000, 800);
+  CurrentScreen = new mainMenuScreen();
+  // Control IO initialzation 
+  control = ControlIO.getInstance(this);
+  // find a device that matches the configuration file
+  stick = control.filter(GCP.STICK).getMatchedDevice("/data/device");
+  if (stick == null) {
+    println("No Controller Configured");
+    exit();
+  }
+  time = millis();
+}
+
+void draw() {
+  background(0);
+  long currentTime = millis();
+
+  delta = (currentTime - time) * 0.001f;
+  
+  CurrentScreen.update(delta);  
+  CurrentScreen.draw3D();
+  CurrentScreen.draw();
+  
+  time = currentTime;
+}
+
+
+void changeScreen(screen CurrentScreen) {
+  this.CurrentScreen = CurrentScreen;
+}

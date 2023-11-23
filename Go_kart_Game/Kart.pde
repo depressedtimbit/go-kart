@@ -11,40 +11,48 @@ class kart{
     float rot;
 
     kart(PVector startingPos, PVector bbBoxSize) {
-        this.pos = startingPos;
-        this.bbBoxSize = bbBoxSize;
-        controlVector = new PVector(0, 0);
-        vel = new PVector(0, 0);
-        mapImage = loadImage("/assets/Images/map_arrow.png");
-        traction = 0;
-        rot =  0;
+        this.pos = startingPos; // set our pos to our starting pos
+        this.bbBoxSize = bbBoxSize; //unused
+        controlVector = new PVector(0, 0); //control vector, keyboard/joysticks/controllers/AI can modifiy this to tell the kart to move
+        vel = new PVector(0, 0); //velcoity of our kart
+        mapImage = loadImage("/assets/Images/map_arrow.png"); //loads a basic arrow image
+        traction = 0; //unused
+        rot =  0; // our rotation, in degress
 
     }
 
     void update(float delta) {
-        vel.setMag(controlVector.x * (accelRate * delta));
-        vel.limit(maxSpeed);
-        PVector velToAdd = vel;
-        velToAdd.mult(delta);
-        velToAdd.rotate(rot);
-        pos.add(velToAdd);
+        vel.setMag(controlVector.x * (accelRate * delta)); //set the mag of velocity to our control vector, times accel rate, times delta 
+        vel.limit(maxSpeed); //limit to the max speed
+        PVector velToAdd = vel; //create new temp vector
+        velToAdd.mult(delta); // times by delta
+        velToAdd.rotate(rot); // rotate by our current rotation
+        pos.add(velToAdd); // add to pos
+        rot =+ controlVector.y * maxRot; //change rotation according to our controlVector
+    }
+
+    void keyPressed() {
+        if (keyPressed && (keyCode == LEFT)) {
+            controlVector.y = 1; //tell the kart to turn left
+        }
+        if (keyPressed && (keyCode == RIGHT)) {
+            controlVector.y = -1; //tell the kart to turn right
+        }
+    }
+
+    void keyReleased() {
+        if (keyPressed && (keyCode == LEFT || keyCode == RIGHT)) {
+            controlVector.y = 0; //reset our control vector if we release keys
+        }
     }
 
     void draw() {
-        pushMatrix();
-        translate(pos.x, pos.y);
-        rotate(rot);
-        
-        image(mapImage, -mapImage.width/2, -mapImage.height/2);
+        pushMatrix(); 
+        translate(pos.x, pos.y); //translate the image to our pos
+        rotate(rot); //rotate to our kart rotation 
+        image(mapImage, -mapImage.width/2, -mapImage.height/2); // draw the image, centred at 0, 0
         popMatrix();
-        if (keyPressed && (keyCode == LEFT)) {
-            rot -= maxRot;
-        }
-        if (keyPressed && (keyCode == RIGHT)) {
-            rot += maxRot;
-        }
-        
-    } 
+    }
 
     void draw3D() {
 
