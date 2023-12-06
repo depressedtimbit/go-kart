@@ -50,16 +50,26 @@ class wall{
 
   }
 
-  void onCollide(kart collidedKart) {
+  void onCollide(kart collidedKart, float delta) {
     if (!KartWallCol(collidedKart.pos, collidedKart.bbBoxSize, collidedKart.rot, polyPoints, pos, rot)) { //check if we're colliding 
       
       return;
     }
 
     switch (wallType) {
-      case WALL: //if the wall is type WALL, a solid wall
-        PVector newkartPosition = collidedKart
-
+      case WALL: //if the wall is type WALL, a solid wall.
+        float kartRot = collidedKart.calculateRot(collidedKart.rot);
+        float kartVel = collidedKart.vel;
+        kartVel = kartVel * 0.75;
+        PVector newkartPosition = collidedKart.calculatePos(delta, kartVel, kartRot);
+        while (KartWallCol(newkartPosition, collidedKart.bbBoxSize, kartRot, polyPoints, pos, rot) && kartVel != 0) {
+          if (kartVel >= -1 && kartVel <= 1) {
+            kartVel = 0;
+          }
+          kartVel = kartVel * 0.75;
+          newkartPosition = collidedKart.calculatePos(delta, kartVel, kartRot);
+        }
+        collidedKart.vel = kartVel;
         
         break;
       case CHECKPOINT: //if the wall is type CHECKPOINT, players must reach all checkpoints in order before they can win 1 lap

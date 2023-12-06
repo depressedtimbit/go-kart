@@ -7,7 +7,7 @@ class screen{
 
   }
   
-  void physicsStep() {
+  void physicsStep(float delta) {
   
   }
   
@@ -172,12 +172,12 @@ class gameScreen extends screen{ //game screen
   void update(float delta) {
     playerKart.update(delta); //update player
     for (int i = 0; i<walls.length; i++) {
-      walls[i].onCollide(playerKart); //check each wall if they player is colliding
+      walls[i].onCollide(playerKart, delta); //check each wall if they player is colliding
     }
   }
   
-  void physicsStep() {
-    playerKart.physicsStep();
+  void physicsStep(float delta) {
+    playerKart.physicsStep(delta);
   }
   
 

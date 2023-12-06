@@ -60,18 +60,27 @@ class kart{
         
     }
     
-    void physicsStep() {
-      velToAdd = new PVector(vel, 0); //create new temp vector
-      velToAdd.mult(delta); // times by delta
-      velToAdd.rotate(rot); // rotate by our current rotation
-      if (!blocked && !disabled) {
-            pos.add(velToAdd); // add to pos
+    PVector calculatePos(float delta, float vel, float rot) { //function for calculating how much we move 
+        velToAdd = new PVector(vel, 0); //create new temp vector
+        velToAdd.mult(delta); // times by delta
+        velToAdd.rotate(rot); // rotate by our current rotation
+        PVector returnPos = pos.copy();
+        if (!blocked && !disabled) {
+            returnPos.add(velToAdd); // add to pos
         }
-      if (!disabled) {
-          rot += controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
-          
+        return returnPos;
+    }
+
+    float calculateRot(float rot) { //function for calculating how much we rotate 
+        if (!disabled) {
+            return rot + controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
         }
-    
+        return rot;
+    }
+
+    void physicsStep(float delta) {
+        rot = calculateRot(rot);
+        pos = calculatePos(vel, delta, rot);
     }
     void keyPressed() {
         

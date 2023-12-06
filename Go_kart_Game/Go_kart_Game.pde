@@ -24,6 +24,7 @@ void draw() {
   delta = (currentTime - time) * 0.001f; //get our current delta time (time since our last frame) to use for physics
   
   CurrentScreen.update(delta); // call update on our current screen, gives delta, and is called before any drawing
+  CurrentScreen.physicsStep(delta);
   CurrentScreen.draw3D(); // call draw3D on our current screen, used to draw 3D graphics 
   CurrentScreen.draw();// call draw, used for GUIs and huds
   
