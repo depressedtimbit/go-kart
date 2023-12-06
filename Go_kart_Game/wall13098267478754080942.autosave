@@ -1,0 +1,90 @@
+class wall{
+  PVector pos;
+  PVector[] polyPoints;
+  float rot;
+  
+  color wallColor;
+  WallType wallType;
+  int id;
+  
+  wall(PVector pos, PVector bbBoxSize, float rot, color wallColor, WallType wallType) {
+      this.pos = pos;
+      this.rot = rot;
+      this.wallColor = wallColor;
+      this.wallType = wallType;
+      polyPoints = bbBoxToPoints(bbBoxSize);
+  }
+
+
+
+  void draw() {
+    pushMatrix();
+    translate(pos.x, pos.y);
+    rotate(rot);
+    fill(wallColor);
+    beginShape();
+    for (PVector poly : polyPoints) {
+      vertex(poly.x, poly.y);
+    }
+    endShape(CLOSE);
+    popMatrix();
+  }
+
+  void draw3D() {
+
+
+  }
+
+  void onCollide(kart collidedKart) {
+    if (!KartWallCol(collidedKart.pos, collidedKart.bbBoxSize, collidedKart.rot, polyPoints, pos, rot)) {
+      wallColor = color(255, 0, 0);
+      return;
+    }
+    
+
+    switch (wallType) {
+      case WALL:
+        wallColor = color(0, 255, 0);
+      break;
+    }
+  }
+  
+  boolean KartWallCol(PVector kartPos, PVector kartBoxSize, float kartRot, PVector[] points, PVector pos, float rot) {
+      PVector[] kartPoints = bbBoxToPoints(kartBoxSize);
+      
+      PVector[] kartConvertedPoints = pointsToScreenPoints(kartPoints, kartPos, kartRot);
+      PVector[] convertedPoints = pointsToScreenPoints(points, pos, rot);
+      
+    pushMatrix();
+    translate(kartPos.x, kartPos.y);
+    rotate(kartRot);
+    fill(wallColor);
+    beginShape();
+    for (PVector poly : kartPoints) {
+      vertex(poly.x, poly.y);
+    }
+    endShape(CLOSE);
+    popMatrix();
+
+    noFill();
+    stroke(255, 255, 0);
+    beginShape();
+    for (PVector poly : kartConvertedPoints) {
+      vertex(poly.x, poly.y);
+    }
+    endShape(CLOSE);
+
+    stroke(0, 255, 255);
+    beginShape();
+    for (PVector poly : convertedPoints) {
+      vertex(poly.x, poly.y);
+    }
+    endShape(CLOSE);
+    noStroke();
+
+      if (!polyPoly(convertedPoints, kartConvertedPoints)) {
+        return false;
+      }
+      return true;
+  }
+}

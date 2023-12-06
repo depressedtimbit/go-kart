@@ -30,6 +30,9 @@ class MenuButton{
     }
     
   boolean checkWasPressed() {
+    if (millis() - doubleClickTimer < 250) {
+      return false;
+    }
     if (!checkMouseHovered()) {
       return false;
     }
@@ -37,7 +40,9 @@ class MenuButton{
       return false;
     }
     
+    doubleClickTimer = millis();
     return true;
+    
   }
   
   void draw() {
