@@ -4,6 +4,8 @@ float delta;
 long time;
 
 boolean DEBUG = false;
+int doubleClickTimer = millis();;
+
 
 enum WallType { WALL, CHECKPOINT, FINISH } //define wall types
 

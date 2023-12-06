@@ -3,6 +3,7 @@ class kart{
     float vel;
     PVector bbBoxSize; //bounding box size, how big is our kart
     PVector controlVector;
+    PVector velToAdd;
     PImage mapImage;
     boolean blocked = false;
     boolean disabled = true;
@@ -56,18 +57,22 @@ class kart{
         
         
         vel = min(maxSpeed, vel); //limit to the max speed
-        PVector velToAdd = new PVector(vel, 0); //create new temp vector
-        velToAdd.mult(delta); // times by delta
-        velToAdd.rotate(rot); // rotate by our current rotation
-        if (!blocked && !disabled) {
+        
+    }
+    
+    void physicsStep() {
+      velToAdd = new PVector(vel, 0); //create new temp vector
+      velToAdd.mult(delta); // times by delta
+      velToAdd.rotate(rot); // rotate by our current rotation
+      if (!blocked && !disabled) {
             pos.add(velToAdd); // add to pos
         }
-        if (!disabled) {
+      if (!disabled) {
           rot += controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
           
         }
+    
     }
-
     void keyPressed() {
         
         if (keyPressed && (keyCode == LEFT)) {

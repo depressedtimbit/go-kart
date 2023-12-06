@@ -58,22 +58,9 @@ class wall{
 
     switch (wallType) {
       case WALL: //if the wall is type WALL, a solid wall
-        PVector kartDirection = new PVector(1, 0);
-        kartDirection.rotate(collidedKart.rot);
+        PVector newkartPosition = collidedKart
 
-        PVector kart2wall = collidedKart.pos.copy().sub(pos).normalize(); 
-
-        float kartDot = kart2wall.dot(kartDirection); //use the dot produt to check if the kart is facing towards the centre of the wall
-
-        println("dot: ", kartDot);
-
-        if (kartDot < 0) { //if we're facing toward the centre of the wall dont allow the player to move forward, only turn
-          collidedKart.vel = 0;
-          collidedKart.blocked = true; 
-        }
-        else {
-          collidedKart.blocked = false;
-        }
+        
         break;
       case CHECKPOINT: //if the wall is type CHECKPOINT, players must reach all checkpoints in order before they can win 1 lap
         if (collidedKart.checkedPoints.hasValue(id)) {return;} //check if we already reached the checkpoint

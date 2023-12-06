@@ -7,6 +7,10 @@ class screen{
 
   }
   
+  void physicsStep() {
+  
+  }
+  
   void draw() {
   
   }
@@ -52,8 +56,8 @@ class mainMenuScreen extends screen{ // main menu screen
     }
 
     if (editorButton.checkWasPressed()) {
-      //screen newScreen = new editorScreen();
-      //changeScreen(newScreen);
+      screen newScreen = new editorScreen();
+      changeScreen(newScreen);
     }
 
     if (quitButton.checkWasPressed()) {
@@ -91,6 +95,8 @@ class editorScreen extends screen{ //unused
     text("x: " + mouseX + " y: " +mouseY, 60, 60);
     
     text("file: "+ workingDirectory, 60, 70);
+    text("Mode: "+ editorMode, 60, 80);
+    
   }
 
   
@@ -168,8 +174,12 @@ class gameScreen extends screen{ //game screen
     for (int i = 0; i<walls.length; i++) {
       walls[i].onCollide(playerKart); //check each wall if they player is colliding
     }
-    
   }
+  
+  void physicsStep() {
+    playerKart.physicsStep();
+  }
+  
 
   void draw() {
     fill(155);
