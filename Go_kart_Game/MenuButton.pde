@@ -18,7 +18,7 @@ class MenuButton{
     
   }
   
-  boolean checkMouseHovered() {
+  boolean checkMouseHovered() { //check if the mouse is inside our button
     if  (
         mouseX < buttonPos.x ||
         mouseX > buttonSize.x+buttonPos.x ||
@@ -30,32 +30,32 @@ class MenuButton{
     }
     
   boolean checkWasPressed() {
-    if (millis() - doubleClickTimer < 250) {
+    if (millis() - doubleClickTimer < 250) { //check if its been more than 250 milliseconds since a button was last used
       return false;
     }
-    if (!checkMouseHovered()) {
+    if (!checkMouseHovered()) { //check if the mouse is inside
       return false;
     }
-    if (!(mousePressed && (mouseButton == LEFT))) {
+    if (!(mousePressed && (mouseButton == LEFT))) { //and the left mouse button is pressed
       return false;
     }
     
-    doubleClickTimer = millis();
+    doubleClickTimer = millis(); //set the last time we clicked a button
     return true;
     
   }
   
-  void draw() {
+  void draw(PGraphics graphics) {
     color colorToDraw = this.buttonColor;
     if (checkMouseHovered() || buttonHovered) {
-          colorToDraw = this.buttonColorHover;
+          colorToDraw = this.buttonColorHover; //if the mouse button is being hovered, change the colour we're about to draw
         }
-    fill(colorToDraw);
-    rectMode(CORNER);
-    rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
-    textSize(buttonTextSize);
-    textAlign(CENTER);
-    fill(0);
-    text(buttonText, buttonPos.x + (buttonSize.x/2), buttonPos.y + (buttonSize.y/2));
+    graphics.fill(colorToDraw); 
+    graphics.rectMode(CORNER);
+    graphics.rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
+    graphics.textSize(buttonTextSize);
+    graphics.textAlign(CENTER);
+    graphics.fill(0);
+    graphics.text(buttonText, buttonPos.x + (buttonSize.x/2), buttonPos.y + (buttonSize.y/2));
   }
 }

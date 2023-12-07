@@ -9,7 +9,7 @@ class kart{
     boolean disabled = true;
     float traction;
     float maxSpeed = 200;
-    float maxRot = 0.1;
+    float maxRot = 0.05;
     float turnSpeed = 100;
     float turnValue;
     float accelRate = 700;
@@ -17,6 +17,8 @@ class kart{
     float rot;
     IntList checkedPoints;
     int finishedlaps = 0;
+
+    Box shape3D;
 
     kart(PVector startingPos, PVector bbBoxSize, float startingRot) {
         this.pos = startingPos; // set our pos to our starting pos
@@ -28,6 +30,8 @@ class kart{
         rot =  startingRot; // our rotation, in degress
         checkedPoints = new IntList();
         checkedPoints.append(0);
+        
+        shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20); //create a box shape for the player
 
     }
 
@@ -60,18 +64,28 @@ class kart{
         
     }
     
-    void physicsStep() {
-      velToAdd = new PVector(vel, 0); //create new temp vector
-      velToAdd.mult(delta); // times by delta
-      velToAdd.rotate(rot); // rotate by our current rotation
-      if (!blocked && !disabled) {
-            pos.add(velToAdd); // add to pos
+    PVector calculatePos(float delta, float vel, float rot) { //function for calculating how much we move 
+        
+        velToAdd = new PVector(vel, 0); //create new temp vector
+        velToAdd.mult(delta); // times by delta
+        velToAdd.rotate(rot); // rotate by our current rotation
+        PVector returnPos = pos.copy();
+        if (!blocked && !disabled) {
+            returnPos.add(velToAdd); // add to pos
         }
-      if (!disabled) {
-          rot += controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
-          
+        return returnPos;
+    }
+
+    float calculateRot(float rot) { //function for calculating how much we rotate 
+        if (!disabled) {
+            return rot + controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
         }
-    
+        return rot;
+    }
+
+    void physicsStep(float delta) {
+        rot = calculateRot(rot);
+        pos = calculatePos(vel, delta, rot);
     }
     void keyPressed() {
         
@@ -130,28 +144,35 @@ class kart{
         }
     }
 
-    void draw() {
-        pushMatrix(); 
-        translate(pos.x, pos.y); //translate the image to our pos
-        rotate(rot+HALF_PI); //rotate to our kart rotation 
-        image(mapImage, -mapImage.width/2, -mapImage.height/2); // draw the image, centred at 0, 0
-        popMatrix();
+    void draw(PGraphics graphics) {
+        graphics.pushMatrix(); 
+        graphics.translate(pos.x, pos.y); //translate the image to our pos
+        graphics.rotate(rot+HALF_PI); //rotate to our kart rotation 
+        graphics.scale(10);
+        graphics.image(mapImage, -mapImage.width/2, -mapImage.height/2); // draw the image, centred at 0, 0
+        graphics.popMatrix();
         
-        noFill();
+        graphics.noFill();
         
         if (DEBUG) { //draw debug lines
           PVector[] kartPoints = bbBoxToPoints(bbBoxSize);
           PVector[] kartConvertedPoints = pointsToScreenPoints(kartPoints, pos, rot);
-          stroke(255, 255, 0);
-          beginShape();
+          graphics.stroke(255, 255, 0);
+          graphics.beginShape();
           for (PVector poly : kartConvertedPoints) {
-            vertex(poly.x, poly.y);
+            graphics.vertex(poly.x, poly.y);
           }
-          endShape(CLOSE);
+          graphics.endShape(CLOSE);
         }
     }
 
-    void draw3D() {
+    void draw3D(PGraphics graphics) {
+        
+        
+        shape3D.moveTo(pos); //move the box to the player pos
 
+        shape3D.rotateToZ(rot); //rotate on the Z axis towards the players current rotation
+
+        shape3D.draw(graphics); 
     }
 }
