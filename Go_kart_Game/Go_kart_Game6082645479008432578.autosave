@@ -13,7 +13,7 @@ PGraphics graphics3D;
 float delta;
 long time;
 
-boolean DEBUG = true;
+boolean DEBUG = false;
 int doubleClickTimer = millis();;
 
 
@@ -22,12 +22,10 @@ enum WallType { WALL, CHECKPOINT, FINISH } //define wall types
 enum EditorMode { WALL, CHECKPOINT, FINISH, PLAYERPOS, ERASE, IDSET} //unused for now, used for the level making tool
 
 void setup () {
-  size(1000, 800, P3D); //set our game size
+  size(1000, 300, P3D); //set our game size
   CurrentScreen = new mainMenuScreen(); //init current screen with our main menu
-  graphics2D = createGraphics(1000, 800);
-  graphics3D = createGraphics(1000, 800, P3D);
-
-  surface.setLocation(100, 100);
+  graphics2D = createGraphics(1000, 300);
+  graphics3D = createGraphics(1000, 300, P3D);
   
   time = millis(); //used for delta
 
@@ -41,20 +39,9 @@ void draw() {
   
   CurrentScreen.update(delta); // call update on our current screen, gives delta, and is called before any drawing
   CurrentScreen.physicsStep(delta);
-
-  graphics3D.beginDraw();
-  graphics3D.background(0);
-  CurrentScreen.draw3D(graphics3D); // call draw3D on our current screen, used to draw 3D graphics 
-  graphics3D.endDraw();
-  image(graphics3D, 0, 0);
-
-  graphics2D.beginDraw();
-  graphics2D.clear();
-  CurrentScreen.draw(graphics2D);// call draw, used for GUIs and huds
-  graphics2D.endDraw();
-  image(graphics2D, 0, 0);
-
-
+  CurrentScreen.draw3D(); // call draw3D on our current screen, used to draw 3D graphics 
+  CurrentScreen.draw();// call draw, used for GUIs and huds
+  
   time = currentTime; //set our last delta
 }
 

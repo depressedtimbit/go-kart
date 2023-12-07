@@ -45,17 +45,17 @@ class MenuButton{
     
   }
   
-  void draw() {
+  void draw(PGraphics graphics) {
     color colorToDraw = this.buttonColor;
     if (checkMouseHovered() || buttonHovered) {
           colorToDraw = this.buttonColorHover;
         }
-    fill(colorToDraw);
-    rectMode(CORNER);
-    rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
-    textSize(buttonTextSize);
-    textAlign(CENTER);
-    fill(0);
-    text(buttonText, buttonPos.x + (buttonSize.x/2), buttonPos.y + (buttonSize.y/2));
+    graphics.fill(colorToDraw);
+    graphics.rectMode(CORNER);
+    graphics.rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
+    graphics.textSize(buttonTextSize);
+    graphics.textAlign(CENTER);
+    graphics.fill(0);
+    graphics.text(buttonText, buttonPos.x + (buttonSize.x/2), buttonPos.y + (buttonSize.y/2));
   }
 }

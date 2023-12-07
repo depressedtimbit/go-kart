@@ -6,6 +6,8 @@ class wall{
   color wallColor;
   WallType wallType;
   int id;
+
+  Box shape3D;
   
   wall(PVector pos, PVector bbBoxSize, float rot, color wallColor, WallType wallType, int id) {
       this.pos = pos;
@@ -14,40 +16,72 @@ class wall{
       this.wallType = wallType;
       this.id = id;
       polyPoints = bbBoxToPoints(bbBoxSize); //convert the bbBoxSize to points
+      
+      shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20);
+
+      switch (wallType) {
+        case CHECKPOINT:
+          shape3D.visible(false, S3D.ALL);
+          break;
+        case FINISH:
+          shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 5);
+          shape3D.drawMode(S3D.TEXTURE);
+          shape3D.use(S3D.ALL).drawMode(S3D.TEXTURE).texture(loadImage("/assets/Images/Finish.png")).uv(0, 1f, 0, 1f);
+          pos.z = -10;
+          break;
+        case WALL:
+          shape3D.drawMode(S3D.SOLID);
+          shape3D.fill(wallColor);
+          shape3D.visible(false, S3D.FRONT);
+          
+      }
   }
 
 
 
-  void draw() {
-    pushMatrix();
-    translate(pos.x, pos.y); //translate and rotate to the walls position
-    rotate(rot);
-    fill(wallColor);
-    beginShape();
+  void draw(PGraphics graphics) {
+    graphics.pushMatrix();
+    graphics.translate(pos.x, pos.y); //translate and rotate to the walls position
+    graphics.rotate(rot);
+    graphics.fill(wallColor);
+    graphics.beginShape();
     for (PVector poly : polyPoints) {
-      vertex(poly.x, poly.y); //draw all our points
+      graphics.vertex(poly.x, poly.y); //draw all our points
     }
-    endShape(CLOSE);
-    popMatrix();
+    graphics.endShape(CLOSE);
+    graphics.popMatrix();
     
     if (DEBUG) { //draw debug lines
       PVector[] convertedPoints = pointsToScreenPoints(polyPoints, pos, rot);
 
       
-      stroke(0, 255, 255);
-      beginShape();
+      graphics.stroke(0, 255, 255);
+      graphics.beginShape();
       for (PVector poly : convertedPoints) {
-        vertex(poly.x, poly.y);
+        graphics.vertex(poly.x, poly.y);
       }
-      endShape(CLOSE);
-      noStroke();
+      graphics.endShape(CLOSE);
+      graphics.noStroke();
 
     }
   }
 
-  void draw3D() {
+  void draw3D(PGraphics graphics) {
+    switch(wallType) {
+    case CHECKPOINT:
+      break;
+    case FINISH:
+    case WALL:
+      shape3D.moveTo(pos);
+      
 
 
+      shape3D.rotateToZ(rot);
+
+      shape3D.draw(graphics);
+      break;
+    }
+    
   }
 
   void onCollide(kart collidedKart, float delta) {
@@ -62,11 +96,11 @@ class wall{
         float kartVel = collidedKart.vel;
         kartVel = kartVel * 0.75;
         PVector newkartPosition = collidedKart.calculatePos(delta, kartVel, kartRot);
-        while (KartWallCol(newkartPosition, collidedKart.bbBoxSize, kartRot, polyPoints, pos, rot) && kartVel != 0) {
-          if (kartVel >= -1 && kartVel <= 1) {
-            kartVel = 0;
-          }
-          kartVel = kartVel * 0.75;
+        while (KartWallCol(newkartPosition, collidedKart.bbBoxSize, kartRot, polyPoints, pos, rot)) {
+          //if (kartVel >= -1 && kartVel <= 1) {
+          //  kartVel = 0;
+          //}
+          kartVel = kartVel - (collidedKart.vel / 4);
           newkartPosition = collidedKart.calculatePos(delta, kartVel, kartRot);
         }
         collidedKart.vel = kartVel;
