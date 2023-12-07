@@ -24,8 +24,8 @@ enum EditorMode { WALL, CHECKPOINT, FINISH, PLAYERPOS, ERASE, IDSET} //unused fo
 void setup () {
   size(1000, 800, P3D); //set our game size
   CurrentScreen = new mainMenuScreen(); //init current screen with our main menu
-  graphics2D = createGraphics(1000, 800);
-  graphics3D = createGraphics(1000, 800, P3D);
+  graphics2D = createGraphics(1000, 800); //create graphics object for 2D rendering
+  graphics3D = createGraphics(1000, 800, P3D); //create graphics object for 3D rendering
 
   surface.setLocation(100, 100);
   
@@ -42,17 +42,17 @@ void draw() {
   CurrentScreen.update(delta); // call update on our current screen, gives delta, and is called before any drawing
   CurrentScreen.physicsStep(delta);
 
-  graphics3D.beginDraw();
-  graphics3D.background(0);
+  graphics3D.beginDraw(); //begin drawing our 3D graphics 
+  graphics3D.background(0); //set the background
   CurrentScreen.draw3D(graphics3D); // call draw3D on our current screen, used to draw 3D graphics 
-  graphics3D.endDraw();
-  image(graphics3D, 0, 0);
-
-  graphics2D.beginDraw();
-  graphics2D.clear();
+  graphics3D.endDraw(); //finish drawing
+  image(graphics3D, 0, 0); //print the result to our screen
+ 
+  graphics2D.beginDraw(); //begin drawing our 2D graphics 
+  graphics2D.clear(); //clear (background, but transparent)
   CurrentScreen.draw(graphics2D);// call draw, used for GUIs and huds
-  graphics2D.endDraw();
-  image(graphics2D, 0, 0);
+  graphics2D.endDraw(); //finish drawing
+  image(graphics2D, 0, 0); //print the result over our 3D graphics 
 
 
   time = currentTime; //set our last delta

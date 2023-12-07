@@ -17,20 +17,20 @@ class wall{
       this.id = id;
       polyPoints = bbBoxToPoints(bbBoxSize); //convert the bbBoxSize to points
       
-      shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20);
+      shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20); //create a box with a height of 20, and the given size
 
       switch (wallType) {
         case CHECKPOINT:
-          shape3D.visible(false, S3D.ALL);
+          shape3D.visible(false, S3D.ALL); //if checkpoint type, disable visiblity 
           break;
         case FINISH:
-          shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 5);
+          shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 5); //if Finish type, set height to five, load checker texture, and set the position Z to -10
           shape3D.drawMode(S3D.TEXTURE);
           shape3D.use(S3D.ALL).drawMode(S3D.TEXTURE).texture(loadImage("/assets/Images/Finish.png")).uv(0, 1f, 0, 1f);
           pos.z = -10;
           break;
         case WALL:
-          shape3D.drawMode(S3D.SOLID);
+          shape3D.drawMode(S3D.SOLID); //draw as a solid colour with the top rendering disabled 
           shape3D.fill(wallColor);
           shape3D.visible(false, S3D.FRONT);
           
@@ -72,13 +72,13 @@ class wall{
       break;
     case FINISH:
     case WALL:
-      shape3D.moveTo(pos);
+      shape3D.moveTo(pos); //move to the positon of the wall
       
 
 
-      shape3D.rotateToZ(rot);
+      shape3D.rotateToZ(rot); //rotate 
 
-      shape3D.draw(graphics);
+      shape3D.draw(graphics); //draw
       break;
     }
     

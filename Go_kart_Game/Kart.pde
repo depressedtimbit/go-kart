@@ -31,7 +31,7 @@ class kart{
         checkedPoints = new IntList();
         checkedPoints.append(0);
         
-        shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20);
+        shape3D = new Box (bbBoxSize.x, bbBoxSize.y, 20); //create a box shape for the player
 
     }
 
@@ -169,10 +169,10 @@ class kart{
     void draw3D(PGraphics graphics) {
         
         
-        shape3D.moveTo(pos);
+        shape3D.moveTo(pos); //move the box to the player pos
 
-        shape3D.rotateToZ(rot);
+        shape3D.rotateToZ(rot); //rotate on the Z axis towards the players current rotation
 
-        shape3D.draw(graphics);
+        shape3D.draw(graphics); 
     }
 }

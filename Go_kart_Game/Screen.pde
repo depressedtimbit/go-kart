@@ -168,7 +168,7 @@ class gameScreen extends screen{ //game screen
     playerKart.disabled = true; //stop the player from moving for now
     StartingTimer = millis(); //save our current time 
     grass = new Box (width, height, 1);
-    grass.moveTo(width/2, height/2, -10);
+    grass.moveTo(width/2, height/2, -10); //create basic grass object as a floor
     grass.drawMode(S3D.SOLID);
     grass.fill(#3BC91C);
     
@@ -237,17 +237,25 @@ class gameScreen extends screen{ //game screen
   }
 
   void draw3D(PGraphics graphics) {
-    graphics.lights();
-    graphics.ambientLight(50, 50, 50);
-    graphics.background(#1C71C9);
-    float cameraZ = ((height/2.0) / tan(PI*60.0/360.0));
-    graphics.perspective(70, width/height, cameraZ/50.0, cameraZ*10.0);
-    graphics.camera(playerKart.pos.x-50 * cos(playerKart.rot), playerKart.pos.y-50 * sin(playerKart.rot), 20, playerKart.pos.x, playerKart.pos.y, 10, 0, 0, -1);
+    graphics.lights(); //enable lights
+    graphics.ambientLight(50, 50, 50); //add some ambient light
+    graphics.background(#1C71C9); //set the background
+    float cameraZ = ((height/2.0) / tan(PI*60.0/360.0)); //used for camera clip planes
+    graphics.perspective(70, width/height, cameraZ/50.0, cameraZ*10.0); //set camera FOV and near clip plane 
+    graphics.camera(
+      playerKart.pos.x-50 * cos(playerKart.rot), //set camarea position to just behind the player
+      playerKart.pos.y-50 * sin(playerKart.rot),
+      20, //with a constant height
+      playerKart.pos.x, //set the camera look towards the player
+      playerKart.pos.y,
+      10, //with constant height
+       0, 0, -1 //set the cameras up vectors
+    );
     for (int i = 0; i<walls.length; i++) {
       walls[i].draw3D(graphics); //draw each wall
     }
-    playerKart.draw3D(graphics);
-    grass.draw(graphics);
+    playerKart.draw3D(graphics); //draw the player
+    grass.draw(graphics); //draw the grass
   }
 
    void keyPressed() {
