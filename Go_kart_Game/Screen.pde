@@ -69,14 +69,14 @@ class mainMenuScreen extends screen{ // main menu screen
     graphics.fill(255);
     graphics.textAlign(CORNER);
     graphics.text("Main Menu", width * 0.10, height * 0.11); //draw a main menu logo
+    graphics.textSize(30);
+    graphics.text("Use forward arrow to accelerate your kart,\n back to break,\n left and right to steer\n use the mouse to interact with menus\n game may be unstable, restart if it freezes", width * 0.40, height * 0.51);
     startButton.draw(graphics);
     settingsButton.draw(graphics); //draw our buttons
     editorButton.draw(graphics);
     quitButton.draw(graphics); 
-
   }
 }
-
 class editorScreen extends screen{ //unused
   EditorMode editorMode = EditorMode.WALL;
   String workingDirectory = "assets/map.json";
