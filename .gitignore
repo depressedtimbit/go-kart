@@ -10,3 +10,4 @@ application.macosx
 out
 Go_kart_Game/windows-amd64/*
 *.rar
+*.autosave
