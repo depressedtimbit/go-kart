@@ -50,9 +50,9 @@ class MenuButton{
     if (checkMouseHovered() || buttonHovered) {
           colorToDraw = this.buttonColorHover; //if the mouse button is being hovered, change the colour we're about to draw
         }
-    graphics.fill(colorToDraw); 
-    graphics.rectMode(CORNER);
-    graphics.rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y);
+    graphics.fill(colorToDraw); //skill #2
+    graphics.rectMode(CORNER); //skill #3
+    graphics.rect(buttonPos.x, buttonPos.y, buttonSize.x, buttonSize.y); //skill #1
     graphics.textSize(buttonTextSize);
     graphics.textAlign(CENTER);
     graphics.fill(0);

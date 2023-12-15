@@ -1,5 +1,5 @@
 class kart{
-    PVector pos;
+    PVector pos; //skill #38
     float vel;
     PVector bbBoxSize; //bounding box size, how big is our kart
     PVector controlVector;
@@ -35,8 +35,8 @@ class kart{
 
     }
 
-    void update(float delta) {
-        println("checkedPoints:"+checkedPoints);
+    void update(float delta) { 
+        println("checkedPoints:"+checkedPoints); //skill #11
         println("controlVector" + controlVector);
         vel += (max(0, controlVector.x) * (accelRate * delta)); //set the mag of velocity to our control vector, times accel rate, times delta 
         
@@ -60,36 +60,36 @@ class kart{
         
         
         
-        vel = min(maxSpeed, vel); //limit to the max speed
+        vel = constrain(vel, -maxSpeed, maxSpeed); //limit to the max speed //skill #6
         
     }
     
-    PVector calculatePos(float delta, float vel, float rot) { //function for calculating how much we move 
+    PVector calculatePos(float delta, float vel, float rot) { //function for calculating how much we move   //skill #39 (entire function)
         
         velToAdd = new PVector(vel, 0); //create new temp vector
         velToAdd.mult(delta); // times by delta
         velToAdd.rotate(rot); // rotate by our current rotation
         PVector returnPos = pos.copy();
-        if (!blocked && !disabled) {
+        if (!blocked && !disabled) { //skill #14
             returnPos.add(velToAdd); // add to pos
         }
         return returnPos;
     }
 
-    float calculateRot(float rot) { //function for calculating how much we rotate 
+    float calculateRot(float rot) { //function for calculating how much we rotate //skill #39 (entire function)
         if (!disabled) {
             return rot + controlVector.y * (turnValue - traction); //change rotation according to our controlVector and turnValue - traction, this means that as speed increases, turning becomes harder
         }
         return rot;
     }
 
-    void physicsStep(float delta) {
+    void physicsStep(float delta) { //skill #39 (entire function)
         rot = calculateRot(rot);
         pos = calculatePos(vel, delta, rot);
     }
     void keyPressed() {
         
-        if (keyPressed && (keyCode == LEFT)) {
+        if (keyPressed && (keyCode == LEFT)) { //skill #12, //skill #13
             controlVector.y = -1; //tell the kart to turn left
             println(controlVector);
         }
