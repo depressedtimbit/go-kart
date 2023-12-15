@@ -60,7 +60,7 @@ class kart{
         
         
         
-        vel = min(maxSpeed, vel); //limit to the max speed
+        vel = constrain(vel, -maxSpeed, maxSpeed); //limit to the max speed //skill #6
         
     }
     
