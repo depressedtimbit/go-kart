@@ -4,6 +4,8 @@ full list of where each skill is located/used
 
 Skill # | File | line number
 
+Skill # | Answer if question
+
 1. | MenuButton.pde | 55
 2. | MenuButton.pde | 53
 3. | MenuButton.pde | 54
@@ -11,3 +13,52 @@ Skill # | File | line number
 4. | Go_kart_Game.pde | 24
 5. | Go_kart_Game.pde | 37
 6. | kart.pde | 54
+7. | Go_kart_Game.pde | 61
+8. | wall.pde | 137
+9. | wall.pde | 2
+10. | Go_kart_Game.pde | 16
+
+11. | Kart.pde | 39
+
+12. | Kart.pde | 
+13. | Kart.pde | 92
+14. | Kart.pde | 73
+15. | wall.pde | 70
+
+16. | wall.pde | 119
+17. | Screen.pde | 180 //technically a nested loop becuase its a loop in a loop (probably)
+18. | wall.pde | 72 // aware its probably not what you meant, but its also not specified 
+19. | for loops are used to loop through a finite collection, while loops are based on a true/false condition
+
+20. | Screen.pde | 269
+21. | Go_kart_Game.pde | 73
+22. | parameters are values you define that can be passed into the function, when you actually use the function, you pass them in as arguments.
+23. | Go_kart_Game.pde | 73
+24. | wall.pde | 87
+
+25. | a class defines an object; the plan that can be used to great a new copy of what the class defines
+26. | a function within the class that can be used to return a new copy of the object when called
+27. | for better code readablity, organization and reducing file length
+28. | wall.pde | 1
+29. | screen.pde | 149
+30. | wall.pde | 12
+
+31. | arrays are more static and cannot be resized as easily as arraylists, arraylists also have some more features, but should be used only if needed
+32. | many reasons, the most common being to remove things from the list
+33. | Screen.pde | 148
+34. | found no use for arraylists in this project (not completed)
+35. | Screen.pde | 148
+36. | found no use for arraylists in this project (not completed)
+37. | always when dealing with vectors and vector math, can also be used to define the size of some objects
+38. | kart.pde | 2
+39. | kart.pde | 67 through 86
+40. | wall.pde | 101
+41. | unused
+42. | a vectors whos magnitude is a normalized (standard) value, usually 1, useful for rotations, controls, and alot of other stuff
+43. | wall.pde | 101 //dot product was used 
+
+44. | Screen.pde | 161
+
+46. | MenuButton.pde | (entire class)
+
+49. | wall.pde | 49

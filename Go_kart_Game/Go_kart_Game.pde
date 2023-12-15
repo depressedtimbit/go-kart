@@ -13,7 +13,7 @@ PGraphics graphics3D;
 float delta;
 long time;
 
-boolean DEBUG = true;
+boolean DEBUG = true; //skill #10
 int doubleClickTimer = millis();;
 
 
@@ -58,7 +58,7 @@ void draw() {
   time = currentTime; //set our last delta
 }
 
-void keyPressed() {
+void keyPressed() { //skill #7
     CurrentScreen.keyPressed(); //pass key pressed
 }
 
@@ -70,7 +70,7 @@ void changeScreen(screen CurrentScreen) {
   this.CurrentScreen = CurrentScreen; //change our current screen
 }
 
-String millisToStopWatch(int millisTime) { //converts milliseconds to a human readable time
+String millisToStopWatch(int millisTime) { //converts milliseconds to a human readable time //skill #21 //skill #23
   
   String millise = str(millisTime % 1000); //only show remainder of /1000
   while (millise.length() < 3) {
@@ -89,7 +89,7 @@ String millisToStopWatch(int millisTime) { //converts milliseconds to a human re
 }
 
 PVector[] bbBoxToPoints(PVector bbBox) { //convert a bbBox values (which is a PVector) to a list of points
-  PVector[] newPolyPoints = {
+  PVector[] newPolyPoints = { 
         new PVector(-bbBox.x/2, -bbBox.y/2),
         new PVector(bbBox.x/2, -bbBox.y/2),
        new PVector(bbBox.x/2, bbBox.y/2),

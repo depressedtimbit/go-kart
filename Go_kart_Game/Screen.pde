@@ -145,8 +145,8 @@ class winScreen extends screen{
 
 class gameScreen extends screen{ //game screen
   kart playerKart;
-  wall[] walls = {
-      new wall(new PVector(240, 450), new PVector(60, 700), 0, color(#5A0505), WallType.WALL, -1), //manually define walls for now, this will be moved to a level editor soon
+  wall[] walls = { //skill #33 //skill #35
+      new wall(new PVector(240, 450), new PVector(60, 700), 0, color(#5A0505), WallType.WALL, -1), //manually define walls // skill #29
       new wall(new PVector(850+60, 450), new PVector(60, 700), 0, color(#5A0505), WallType.WALL, -1),
       new wall(new PVector(560, 181-60), new PVector(700, 60), 0, color(#5A0505), WallType.WALL, -1),
       new wall(new PVector(560, 650+60), new PVector(700, 60), 0, color(#5A0505), WallType.WALL, -1),
@@ -158,8 +158,8 @@ class gameScreen extends screen{ //game screen
       new wall(new PVector(300, 395), new PVector(60, 60), 0, color(#FAF9E1), WallType.FINISH, 5)
     };
   int StartingTimer;
-  int raceTimer;
-  String countdownText = "";
+  int raceTimer; //skill #44
+  String countdownText = ""; 
   boolean pauseMenu = false; //unused for now
   Box grass;
   gameScreen() {
@@ -177,7 +177,7 @@ class gameScreen extends screen{ //game screen
 
   void update(float delta) {
     playerKart.update(delta); //update player
-    for (int i = 0; i<walls.length; i++) {
+    for (int i = 0; i<walls.length; i++) {// skill #17
       walls[i].onCollide(playerKart, delta); //check each wall if they player is colliding
     }
   }
@@ -266,7 +266,7 @@ class gameScreen extends screen{ //game screen
       playerKart.keyReleased(); //call key Released on the player "kart"
   }
 
-  void attemptFinish() {
+  void attemptFinish() { //skill #20
     if (playerKart.finishedlaps > 2) {
       changeScreen(new winScreen(new int[] {(millis() - raceTimer)})); //change to the winScreen and feed it our time
     }
