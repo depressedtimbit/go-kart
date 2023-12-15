@@ -1,0 +1,13 @@
+full list of where each skill is located/used
+
+
+
+Skill # | File | line number
+
+1. | MenuButton.pde | 55
+2. | MenuButton.pde | 53
+3. | MenuButton.pde | 54
+
+4. | Go_kart_Game.pde | 24
+5. | Go_kart_Game.pde | 37
+6. | Go_kart_Game.pde | 54
